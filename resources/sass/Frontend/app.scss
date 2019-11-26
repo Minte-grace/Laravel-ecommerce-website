@@ -1,0 +1,10 @@
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Nunito');
+// Variables
+@import 'Frontend/variables';
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';
+//css for other pages
+@import 'Frontend/custom';
+//css for checkout page
+@import 'Frontend/checkout';
