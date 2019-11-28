@@ -18,7 +18,7 @@ Route::get('/order-details/{id}','OrdersController@show')->name('order.details')
 Route::get('/admin/{id}','OrdersController@destroy')->name('order.delete');
 Route::get('/add-category/{id}','AddCategoryController@destroy')->name('category.delete');
 
-Route::get('/products-details/{id}','productsController@productdetail')->name('product.details');
+Route::get('/products-details/{id}','AddProductController@productdetail')->name('product.details');
 Route::get('/admin/products-details/{id}','AddProductController@destroy')->name('product.delete');
 
 //route for product updates

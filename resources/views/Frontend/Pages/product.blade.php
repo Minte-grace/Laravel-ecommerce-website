@@ -2,11 +2,11 @@
 @extends('Frontend.Layouts.app')
 @section('content')
 
-   <div class="product-img"> 
+   <div class="product-img">
     <div class="container">
             <div class="row">
                     <div class="col-md-6" >
-            <img src="/storage/Products/{{$product->image}}" style="width:300px;margin-left: 200px;">
+            <img src="{{asset('/storage/Products/'.$product->image)}}"  style="width:300px;margin-left: 200px;">
         </div>
         <div class="col-md-6">
                 <h2>{{ $product->name }}</h2>

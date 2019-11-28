@@ -61,7 +61,7 @@ class AdminAddUserController extends Controller
     public function edit($id)
     {
         $users= User::find($id);
-        return view('admin.update-user')->with('users', $users);
+        return view('Backend.Pages.update-user')->with('users', $users);
     }
 
 

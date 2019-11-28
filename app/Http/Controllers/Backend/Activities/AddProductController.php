@@ -153,9 +153,9 @@ class AddProductController extends Controller
             return  back()->with([
                 'products' => $products,
                 'categories' => $categories,
-    
+
                  ])->with('success_message', 'Product is updated successfully');
-    
+
     }
 
     /**
@@ -170,6 +170,10 @@ class AddProductController extends Controller
         $products = Product::where('id', $id)->delete();
         return  back()->with('success_message', "Product is deleted  successfully!");
 
+    }
+    public function productdetail($id){
+        $products = Product::find($id);
+        return view('Backend.Pages.product-details')->with('product', $products);
     }
 
 

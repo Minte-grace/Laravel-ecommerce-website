@@ -1,21 +1,21 @@
 @extends('Frontend.Layouts.app')
 @section('content')
-<div class="row">
-<div class="nav-side-menu" style="position:absolute; width:250px;">
+<div class="container visible-lg-block">
+<div class="nav-side-menu visible-lg-block" style="position:absolute;">
         <div class="brand">BY CATEGORY</div>
-        <i class="fa fa-bars fa-2x toggle-btn" data-toggle="collapse" data-target="#menu-content"></i>
-      
             <div class="menu-list">
                     @foreach($categories as $category)
                         <li>
                             <a href="{{ route('products.show', ['category' => $category->slug]) }}">
-                            <i class="fa fa-user fa-lg"></i>  {{$category->name}}
+                            <i class=""></i>  {{$category->name}}
                             </a>
                         </li>
                     @endforeach    
                 </ul>
          </div>
 </div>
+</div>
+<div class="container">
 <div class="main">
             <div class="container text-center>
                     <h1 class="font-weight-light text-center text-lg-left mt-4 mb-0"><b style="font-size:35px">{{ $categoryName }}</b></h1>

@@ -1,4 +1,4 @@
-@extends('Backind.Layouts.admin-auth')
+@extends('Backend.Layouts.admin-auth')
 
 @section('content')
     <div class="container" style="margin-top: 100px;">

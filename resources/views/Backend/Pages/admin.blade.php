@@ -7,12 +7,12 @@
         <div class="menu-list">
                     <li>
                         <a href="{{route('admin.orders')}}">
-                        <i class="fa fa-user fa-lg"></i> Orders
+                        <i class="fa fa-shopping-cart fa-lg"></i> Orders
                         </a>
                     </li>
                     <li>
                         <a href="{{route('admin.products')}}">
-                        <i class="fa fa-user fa-lg"></i> Products
+                        <i class="fa fa-product-hunt fa-lg"></i> Products
                         </a>
                        </li>
                    <li>
@@ -23,7 +23,7 @@
 
                  <li>
                   <a href="{{route('admin.category')}}">
-                  <i class="fa fa-users fa-lg"></i> Categories
+                  <i class="fa fa-list-alt fa-lg"></i> Categories
                   </a>
                 </li>
             </ul>

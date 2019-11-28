@@ -1,4 +1,4 @@
-@import url(https://fonts.googleapis.com/css?family=Nunito);@import url(https://fonts.googleapis.com/css?family=Roboto:300,400,500);@import url(https://fonts.googleapis.com/css?family=Monda:400,700);@charset "UTF-8";
+@import url(https://fonts.googleapis.com/css?family=Nunito);@import url(https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css);@import url(https://fonts.googleapis.com/css?family=Roboto:300,400,500);@import url(https://fonts.googleapis.com/css?family=Monda:400,700);@charset "UTF-8";
 /*!
  * Bootstrap v4.3.1 (https://getbootstrap.com/)
  * Copyright 2011-2019 The Bootstrap Authors
@@ -10178,6 +10178,11 @@ h3 {
   src: url("https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300");
   font-family: "Open Sans Condensed", sans-serif;
 }
+h3 {
+  font-family: Roboto Medium;
+  font-size: 18px;
+}
+
 /* Float four columns side by side */
 .column {
   float: left;
@@ -10201,17 +10206,6 @@ h3 {
 }
 .w3-sidebar a {
   font-family: "Roboto", sans-serif;
-}
-
-body,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-.w3-wide {
-  font-family: "Montserrat", sans-serif;
 }
 
 h1 {
@@ -10493,16 +10487,11 @@ a {
 }
 
 .our-work {
+  font-family: Spectiral;
   color: black;
   border: none;
+  font-size: 22px;
   border-radius: 50px;
-  font-size: large;
-}
-
-footer {
-  background-color: black;
-  color: white;
-  text-align: center;
 }
 
 .product-img {
@@ -10521,6 +10510,11 @@ footer {
 
 .main {
   margin-left: 255px;
+}
+
+.nav-side-menu {
+  left: 0;
+  width: 250px;
 }
 
 .example.example3 {

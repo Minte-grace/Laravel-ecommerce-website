@@ -4,6 +4,11 @@
     @import url(https://fonts.googleapis.com/css?family=Monda:400,700);
 }
 
+h3 {
+    font-family: Roboto Medium;
+    font-size: 18px;
+}
+
 
 /* Float four columns side by side */
 
@@ -32,17 +37,6 @@
 
 .w3-sidebar a {
     font-family: "Roboto", sans-serif
-}
-
-body,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-.w3-wide {
-    font-family: "Montserrat", sans-serif;
 }
 
 h1 {
@@ -307,10 +301,11 @@ a {
 }
 
 .our-work {
+    font-family: Spectiral;
     color: black;
     border: none;
+    font-size: 22px;
     border-radius: 50px;
-    font-size: large;
 }
 
 .product-img {
@@ -329,4 +324,9 @@ a {
 
 .main {
     margin-left: 255px;
+}
+
+.nav-side-menu {
+    left: 0;
+    width: 250px;
 }

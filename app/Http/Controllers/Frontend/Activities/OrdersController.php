@@ -1,15 +1,18 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Category;
-use App\Order;
+use App\Repositories\Frontend\Orders\OrdersRepository;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Database;
-use Gloudemans\Shoppingcart\Facades\Cart;
 class OrdersController extends Controller
 {
 
+    protected $ordersRepository;
+
+
+    public function __construct(OrdersRepository $ordersRepository)
+    {
+        $this->ordersRepository = $ordersRepository;
+    }
 
     /**
      * Display a listing of the resource.
@@ -18,7 +21,7 @@ class OrdersController extends Controller
      */
     public function index()
     {
-       $orders = auth()->user()->orders()->with('products')->get();
+       $orders = $this->ordersRepository->show();
        return view('Frontend.Pages.my-orders')->with('orders', $orders);
 
     }
@@ -52,7 +55,7 @@ class OrdersController extends Controller
      */
     public function show($id)
     {
-        $orders = Order::find($id);
+        $orders = $this->ordersRepository->view($id);
         return view('Backend.Pages.order-details')->with('order', $orders);
     }
 
@@ -87,8 +90,8 @@ class OrdersController extends Controller
      */
     public function destroy($id)
     {
-        $orders= Order::where('id', $id)->delete();
-        return redirect()->route('admin.dashboard',compact('orders'))->with('success_message', "Order is deleted successfully!");
+        $orders=$this->ordersRepository->delete($id);
+        return  back()->with('success_message', "Order is deleted successfully!");
 
     }
 }

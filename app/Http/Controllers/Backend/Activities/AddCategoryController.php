@@ -89,8 +89,7 @@ class AddCategoryController extends Controller
     public function destroy($id)
     {
         $categories = Category::where('id', $id)->delete();
-        return redirect()->route('admin.dashboard',compact('categories'))->with('success_message', "Category is deleted  successfully!");
-
+        return  back()->with('success_message', "Category is deleted  successfully!");
     }
 
     public function addcategory(Request $request)

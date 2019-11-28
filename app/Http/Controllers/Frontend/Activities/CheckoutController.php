@@ -1,19 +1,26 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\User;
 use Cart;
 use App\Order;
 use App\Product;
 use App\OrderProduct;
 use App\Mail\OrderPlaced;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
 use App\Http\Requests\CheckoutRequest;
-
+use App\Repositories\Frontend\Cart\CheckoutRepository;
 use Cartalyst\Stripe\Laravel\Facades\Stripe;
 use Cartalyst\Stripe\Exception\CardErrorException;
 class CheckoutController extends Controller
 {
+    protected $checkoutRepository;
+
+    public function __construct(CheckoutRepository $checkoutRepository)
+    {
+        $this->checkoutRepository = $checkoutRepository;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -21,15 +28,15 @@ class CheckoutController extends Controller
      */
     public function index()
     {
-
-        if (Cart::instance('default')->count() == 0) {
+        $nullify = $this->checkoutRepository->all();
+        $user = $this->checkoutRepository->all();
+        if ($nullify) {
             return redirect()->route('products.show');
         }
-
-        if (auth()->user() && request()->is('guestCheckout')) {
+        if ($user) {
             return redirect()->route('checkout.index');
         }
-        return view('Frontend.Pages.checkout');
+            return view('Frontend.Pages.checkout');
     }
 
     /**
@@ -51,9 +58,6 @@ class CheckoutController extends Controller
     public function store(Request $request)
     {
 
-        $subtotal=Cart::subtotalFloat();
-        $total=Cart::totalFloat();
-        $tax=Cart::taxFloat();
 
         //Insert into orders table
         $order = Order::create([
@@ -79,8 +83,7 @@ class CheckoutController extends Controller
 
         $this->decreaseQuantities();
 
-        $cartins = Cart::instance('default');
-        $cartins->destroy();
+        $cartins = $this->checkoutRepository->c
         return view('Frontend.Pages.thankyou')->with('success_message', 'Thank you! Your payment has been successfully accepted!');
 
     }
