@@ -15,7 +15,7 @@ interface RepositoryInterface
 
     public function all();
 
-    public function create($data);
+    public function create(array $data);
 
     public function find($id);
 

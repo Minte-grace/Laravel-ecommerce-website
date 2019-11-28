@@ -8,10 +8,10 @@ use App\Product;
 use App\OrderProduct;
 use App\Mail\OrderPlaced;
 use Illuminate\Http\Request;
-use App\Http\Requests\CheckoutRequest;
+use App\Http\Requests\Frontend\OrdersRequest;
 use App\Repositories\Frontend\Cart\CheckoutRepository;
-use Cartalyst\Stripe\Laravel\Facades\Stripe;
-use Cartalyst\Stripe\Exception\CardErrorException;
+use mysql_xdevapi\Exception;
+
 class CheckoutController extends Controller
 {
     protected $checkoutRepository;
@@ -21,69 +21,35 @@ class CheckoutController extends Controller
         $this->checkoutRepository = $checkoutRepository;
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        $nullify = $this->checkoutRepository->all();
-        $user = $this->checkoutRepository->all();
-        if ($nullify) {
+        if ( Cart::instance('default')->count() == 0) {
             return redirect()->route('products.show');
         }
-        if ($user) {
+        if (auth()->user() && request()->is('guestCheckout')) {
             return redirect()->route('checkout.index');
         }
             return view('Frontend.Pages.checkout');
-    }
+        }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function store(OrdersRequest $request)
     {
 
-
-        //Insert into orders table
-        $order = Order::create([
-            'user_id' => auth()->user() ? auth()->user()->id : null,
-            'billing_email' => $request->email,
-            'billing_name' => $request->name,
-            'billing_address' => $request->address,
-            'billing_city' => $request->city,
-            'billing_phone' => $request->phone,
-            'billing_subtotal' => $subtotal,
-            'billing_tax' => $tax,
-            'billing_total' => $total,
-            'error' => null,
-
-        ]);
-        foreach (Cart::content() as $item) {
-            OrderProduct::create([
-                'order_id' => $order->id,
-                'product_id' => $item->model->id,
-                'quantity' => $item->qty,
-            ]);
-        }
-
+        $this->checkoutRepository->create($request->only([
+            'name' ,
+            'email' ,
+            'address',
+            'city',
+            'phone',
+        ]));
         $this->decreaseQuantities();
-
-        $cartins = $this->checkoutRepository->c
+        $cartins = Cart::instance('default');
+        $cartins->destroy();
         return view('Frontend.Pages.thankyou')->with('success_message', 'Thank you! Your payment has been successfully accepted!');
 
     }
@@ -129,10 +95,11 @@ class CheckoutController extends Controller
     public function thankyou(){
         return view('Frontend.Pages.thankyou');
     }
+
     protected function decreaseQuantities(){
-        foreach (Cart::content() as $item){
-            $product = Product::find($item->model->id);
-            $product->update(['quantity' => $product->quantity - $item->qty]);
+            foreach (Cart::content() as $item){
+                $product= $this->checkoutRepository->updateCart();
+                $product->update(['quantity' => $product->quantity - $item->qty]);
+            }
         }
     }
-}

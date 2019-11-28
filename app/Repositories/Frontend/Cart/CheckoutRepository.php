@@ -2,55 +2,62 @@
 
 
 namespace App\Repositories\Frontend\Cart;
-
+use App\Http\Controllers\Frontend\Activities\CheckoutController;
+use App\Product;
 use Illuminate\Support\Facades\DB;
 use App\Order;
 use App\OrderProduct;
 use App\Repositories\BaseRepository;
 use http\Env\Request;
 use Cart;
-use Illuminate\Http\Request;
+use phpDocumentor\Reflection\Types\This;
+
 
 class CheckoutRepository extends BaseRepository
 {
-public function all()
-{
-    $nullify = Cart::instance('default')->count() == 0;
-    $user= auth()->user() && request()->is('guestCheckout');
-    return [$nullify, $user];
-}
-public function create($data)
-{
-
-    DB::transaction(function ($request){
-        $subtotal=Cart::subtotalFloat();
-        $total=Cart::totalFloat();
-        $tax=Cart::taxFloat();
-        $order = Order::create([
-            'user_id' => auth()->user() ? auth()->user()->id : null,
-            'billing_email' => $request->email,
-            'billing_name' => $request->name,
-            'billing_address' => $request->address,
-            'billing_city' => $request->city,
-            'billing_phone' => $request->phone,
-            'billing_subtotal' => $subtotal,
-            'billing_tax' => $tax,
-            'billing_total' => $total,
-            'error' => null,
-
-        ]);
-
-});
-    foreach (Cart::content() as $item) {
-        OrderProduct::create([
-            'order_id' => $order->id,
-            'product_id' => $item->model->id,
-            'quantity' => $item->qty,
-        ]);
+    public function __construct(Order $model)
+    {
+       $this->model = $model;
     }
-        $decrement= $this->decreaseQuantities();
-        $cartins = Cart::instance('default');
-        $cartins->destroy();
-        return [$userOrders, $productOrders,$cartins, $decrement];
-}
-}
+
+    public function updateCart(): Product
+    {
+        foreach (Cart::content() as $item) {
+            $product = Product::find($item->model->id);
+             return $product;
+        }
+    }
+
+
+    public function create(array $data) : Order
+    {
+
+        return DB::transaction(function () use ($data) {
+            $order = $this->model::create([
+                'user_id' => auth()->user() ? auth()->user()->id : null,
+                'billing_name' => $data['name'],
+                'billing_email' => $data['email'],
+                'billing_address' => $data['address'],
+                'billing_city' => $data['city'],
+                'billing_phone' => $data['phone'],
+                'billing_subtotal' => Cart::subtotalFloat(),
+                'billing_tax' => Cart::totalFloat(),
+                'billing_total' => Cart::taxFloat(),
+            ]);
+            foreach (Cart::content() as $item) {
+               OrderProduct::create([
+                    'order_id' => $order->id,
+                    'product_id' => $item->model->id,
+                    'quantity' => $item->qty,
+                ]);
+                    return $order;
+            }
+            $cartins = Cart::instance('default');
+
+        });
+        }};
+
+
+
+
+

@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 use App\Category;
+use App\Order;
 use App\Product;
 use Gloudemans\Shoppingcart\Cart;
 use Illuminate\Http\Request;
@@ -26,9 +27,9 @@ abstract class BaseRepository implements RepositoryInterface
         return News::all();
     }
 
-    public function create($data)
+    public function create(array $data)
     {
-        return News::create($data);
+        return Order::create($data);
     }
 
     public function find($id)
@@ -53,6 +54,9 @@ abstract class BaseRepository implements RepositoryInterface
     public function store(Request $request){
         return Product::all();
         return Cart::all();
+    }
+    public function decreaseQuantities(){
+        return Product::all();
     }
 
 }
