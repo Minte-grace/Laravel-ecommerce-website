@@ -1,11 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\User;
+
 use Cart;
-use App\Order;
-use App\Product;
-use App\OrderProduct;
 use App\Mail\OrderPlaced;
 use Illuminate\Http\Request;
 use App\Http\Requests\Frontend\OrdersRequest;

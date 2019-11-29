@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Category;
-use App\User;
+use App\Http\Requests\Backend\UserRegisterRequest;
+use App\Http\Requests\Backend\UserUpdateRequest;
+use App\Repositories\Backend\User\AddUserRepository;
 use Illuminate\Foundation\Auth\RegistersUsers;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
+
+
 
 class AdminAddUserController extends Controller
 {
@@ -38,9 +38,12 @@ class AdminAddUserController extends Controller
      *
 **/
 
-    public function __construct()
+    protected $adduserRepository;
+
+    public function __construct(AddUserRepository $adduserRepository)
     {
         $this->middleware('auth:admin');
+        $this->adduserRepository= $adduserRepository;
     }
 
     /**
@@ -60,51 +63,30 @@ class AdminAddUserController extends Controller
 
     public function edit($id)
     {
-        $users= User::find($id);
+        $users= $this->adduserRepository->showEditor($id);
         return view('Backend.Pages.update-user')->with('users', $users);
     }
 
 
-     public function update(Request $request, $id){
-        $users = User::find($id);
-        $this->validate($request, [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-        ]);
-        $users->name = $request->input('name');
-        $users->email = $request->input('email');
-        $users->password=Hash::make($request->input('password'));
-        $users->save();
-
-        return  back()->with('success_message', "User profile is updated  successfully!");
+     public function update(UserUpdateRequest $request, $id){
+         $this->adduserRepository->update($id, $request->only(
+             ['name', 'email', 'password']));
+         return  back()->with('success_message', "User profile is updated  successfully!");
 
      }
 
-    public function register(Request $request)
+    public function register(UserRegisterRequest $request)
     {
-        $users = User::all();
-        $this->validate($request, [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-        ]);
-         User::create([
-            'name' => $request['name'],
-            'email' => $request['email'],
-            'password' => Hash::make($request['password']),
-        ]);
+        $this->adduserRepository-> create($request->only(
+            ['name', 'email', 'password']));
         return  back()->with('success_message', "New User is added  successfully!");
-
-
-
 
     }
     public function destroy($id)
     {
-
-        $products = User::where('id', $id)->delete();
+        $this->adduserRepository->delete($id);
         return  back()->with('success_message', "User is deleted  successfully!");
 
     }
+
 }

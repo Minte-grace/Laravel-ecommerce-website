@@ -20,7 +20,6 @@
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-header"><b>{{ __('Add new Category') }}</b></div>
-
                     <div class="card-body">
                         <form method="POST" action="{{ route('store.category') }}" enctype="multipart/form-data">
                             @csrf

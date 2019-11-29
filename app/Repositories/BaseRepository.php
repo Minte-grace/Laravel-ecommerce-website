@@ -15,16 +15,15 @@ abstract class BaseRepository implements RepositoryInterface
     public function show(){
 
         return Product::all();
-        return Category::all();
 
     }
     public function filter(){
         return Product::all();
-        return Category::all();
+
     }
     public function all()
     {
-        return News::all();
+
     }
 
     public function create(array $data)
@@ -49,14 +48,11 @@ abstract class BaseRepository implements RepositoryInterface
     public function might($slug)
     {
         return Product::all();
-        return Category::all();
+
     }
     public function store(Request $request){
         return Product::all();
-        return Cart::all();
-    }
-    public function decreaseQuantities(){
-        return Product::all();
+
     }
 
 }

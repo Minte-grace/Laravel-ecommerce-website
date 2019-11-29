@@ -2,20 +2,25 @@
 
 namespace App\Http\Controllers;
 
-use App\Category;
-use App\Product;
-use App\User;
+use App\Http\Requests\Backend\ProductRequest;
+use App\Http\Requests\Backend\ProductUpdateRequest;
+use App\Repositories\Backend\Product\ProductRepository;
+
 use DB;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Hash;
+
+
 
 class AddProductController extends Controller
 {
-    public function __construct()
+    protected $productRepository;
+
+
+    public function __construct(ProductRepository $productRepository)
     {
         $this->middleware('auth:admin');
+        $this->productRepository= $productRepository;
     }
 
     /**
@@ -44,44 +49,12 @@ class AddProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ProductRequest $request)
     {
-
-        $categories = Category::all();
-        $products = Product::all();
-
-        $this->validate($request, [
-            'name' => ['required', 'string', 'max:255'],
-            'slug' => ['nullable', 'string', 'max:255'],
-            'details' => ['required', 'string', 'max:255'],
-            'price' => ['required', 'string', 'max:255'],
-            'description' => ['required', 'string', 'max:255'],
-            'quantity' => ['required', 'string', 'max:255'],
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-        ]);
-        $fileName = null;
-        if (request()->hasFile('image')) {
-            $file = request()->file('image');
-            $fileName = md5($file->getClientOriginalName() . time()) . "." . $file->getClientOriginalExtension();
-            $file->move('./storage/Products', $fileName);
-        }
-
-        Product::create([
-            'name' => $request['name'],
-            'slug' => $request['slug'],
-            'details' => $request['details'],
-            'price' => $request['price'],
-            'description' => $request['description'],
-            'quantity' => $request['quantity'],
-            'image' => $fileName,
-
-
-        ])->categories()->attach($request->slug);
-        return  back()->with([
-            'products' => $products,
-            'categories' => $categories,
-
-             ])->with('success_message', 'New product is added successfully');
+       $products = $this->productRepository-> create($request->only(
+       ['name', 'slug', 'details', 'price', 'description', 'quantity', 'image',])
+       )->categories()->attach($request->slug);
+        return  back()->with('success_message', 'New product is added successfully');
 
 
     }
@@ -94,7 +67,8 @@ class AddProductController extends Controller
      */
     public function show($id)
     {
-        //
+        $products = $this->productRepository->showProduct($id);
+        return view('Backend.Pages.product-details')->with('product', $products);
     }
 
     /**
@@ -115,48 +89,13 @@ class AddProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ProductUpdateRequest $request,$id)
     {
-        $categories = Category::all();
-        $products = Product::find($id);
-
-        $this->validate($request, [
-            'name' => ['required', 'string', 'max:255'],
-            'slug' => ['required', 'string', 'max:255'],
-            'details' => ['required', 'string', 'max:255'],
-            'price' => ['required', 'string', 'max:255'],
-            'description' => ['required', 'string', 'max:255'],
-            'quantity' => ['required', 'string', 'max:255'],
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-        ]);
-        $fileName = null;
-        if (request()->hasFile('image')) {
-            $file = request()->file('image');
-            $fileName = md5($file->getClientOriginalName() . time()) . "." . $file->getClientOriginalExtension();
-            $file->move('./storage/Products', $fileName);
-
-            Storage::delete('/storage/Products'.$products->image);
-
+        $this->productRepository->update($id,
+        $request->only('name', 'slug', 'details', 'price', 'description', 'quantity', 'image')
+            ->categories()->attach($request->slug));
+        return  back()->with('success_message', 'Product is updated successfully');
         }
-
-            $products->name = $request->input('name');
-            $products->slug = $request->input('slug');
-            $products->details= $request->input('details');
-            $products->price= $request->input('price');
-            $products->description = $request->input('description');
-            $products->quantity= $request->input('quantity');
-
-        if($request->hasFile('image')){
-            $products->image = $fileName;
-        }
-            $products->save();
-            return  back()->with([
-                'products' => $products,
-                'categories' => $categories,
-
-                 ])->with('success_message', 'Product is updated successfully');
-
-    }
 
     /**
      * Remove the specified resource from storage.
@@ -166,14 +105,9 @@ class AddProductController extends Controller
      */
     public function destroy($id)
     {
-
-        $products = Product::where('id', $id)->delete();
+        $this->productRepository->delete($id);
         return  back()->with('success_message', "Product is deleted  successfully!");
 
-    }
-    public function productdetail($id){
-        $products = Product::find($id);
-        return view('Backend.Pages.product-details')->with('product', $products);
     }
 
 

@@ -9,7 +9,7 @@ Route::post('/add-product','AddProductController@store')->name('store.product');
 
 //route for adding categories
 Route::get('/add-category','AdminController@addcategory')->name('add.category');
-Route::post('/add-category','AddCategoryController@addcategory')->name('store.category');
+Route::post('/add-category','AddCategoryController@store')->name('store.category');
 
 
 Route::get('/order-details/{id}','OrdersController@show')->name('order.details');
@@ -18,7 +18,7 @@ Route::get('/order-details/{id}','OrdersController@show')->name('order.details')
 Route::get('/admin/{id}','OrdersController@destroy')->name('order.delete');
 Route::get('/add-category/{id}','AddCategoryController@destroy')->name('category.delete');
 
-Route::get('/products-details/{id}','AddProductController@productdetail')->name('product.details');
+Route::get('/products-details/{id}','AddProductController@show')->name('product.details');
 Route::get('/admin/products-details/{id}','AddProductController@destroy')->name('product.delete');
 
 //route for product updates
@@ -29,7 +29,6 @@ Route::put('/admin/{id}', 'AddProductController@update')->name('product.update')
 Route::get('/update-user/{id}', 'AdminAddUserController@edit')->name('user.edit');
 Route::put('/{id}', 'AdminAddUserController@update')->name('user.update');
 Route::get('/admin/update-user/{id}','AdminAddUserController@destroy')->name('user.delete');
-
 
 //routes for order and category paths
 Route::get('/categories', 'AdminController@categoryTable')->name('admin.category');

@@ -87,7 +87,7 @@ class CartController extends Controller
     public function update(Request $request, $id)
     {
         $update = $this->cartRepository->updateCart($request,$id);
-        return $update->with('success_message', 'Cart is updated');
+        return $update->withFlushSuccess('Cart is updated');
 
     }
 

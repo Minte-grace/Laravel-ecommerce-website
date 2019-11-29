@@ -1,20 +1,21 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Order;
-use App\Product;
-use App\User;
+
+use App\Repositories\Backend\Category\CategoryRepository;
+use App\Http\Requests\Backend\CategoryRequest;
 use DB;
-use App\Category;
 use Illuminate\Http\Request;
 
 class AddCategoryController extends Controller
 {
+    protected $categoryRepository;
 
-    public function __construct()
+    public function __construct(CategoryRepository $categoryRepository)
     {
         $this->middleware('auth:admin');
-    }
+        $this->categoryRepository = $categoryRepository;
+ }
     /**
      * Display a listing of the resource.
      *
@@ -41,9 +42,13 @@ class AddCategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CategoryRequest $request)
     {
-        //
+         $this->categoryRepository-> create($request->only([
+             'name',
+             'slug',
+         ]));
+        return  back()->with('success_message', "New Category is added  successfully!");
     }
 
     /**
@@ -88,28 +93,8 @@ class AddCategoryController extends Controller
      */
     public function destroy($id)
     {
-        $categories = Category::where('id', $id)->delete();
+        $categories = $this->categoryRepository->delete($id);
         return  back()->with('success_message', "Category is deleted  successfully!");
-    }
-
-    public function addcategory(Request $request)
-    {
-
-        $categories = Category::all();
-
-        $this->validate($request, [
-            'name' => ['required', 'string', 'max:255'],
-            'slug' => ['required', 'string', 'max:255'],
-        ]);
-
-        Category::create([
-            'name' => $request['name'],
-            'slug' => $request['slug'],
-             ]);
-
-             return  back()->with('success_message', "New Category is added  successfully!");
-
-
     }
 
 }
