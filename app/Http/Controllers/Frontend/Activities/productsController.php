@@ -3,22 +3,15 @@
 namespace App\Http\Controllers;
 use App\Repositories\Frontend\Category\CategoryRepository;
 use App\Repositories\Frontend\Product\productRepo;
-use Illuminate\Http\Request;
+
 
 class productsController extends Controller
 {
-    /**
-     * @var productRepo
-     */
+
     protected $productRepo;
-    /**
-     * @var CategoryRepository
-     */
+
     protected $categoryRepository;
 
-    /**
-     * productsController constructor.
-     */
     public function __construct(productRepo $productRepo, CategoryRepository $categoryRepository)
     {
         $this->productRepo = $productRepo;
@@ -43,36 +36,8 @@ class productsController extends Controller
             'categories' => $categories,
             'categoryName' => $categoryName,
         ]);
-
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($slug)
     {
         $products = $this->productRepo->mightName($slug);
@@ -82,29 +47,6 @@ class productsController extends Controller
             'product'=> $products,
             'mightAlsoLike' => $mightAlsoLike,
         ]);
-
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-
-    public function destroy($id)
-    {
-
     }
 
 }

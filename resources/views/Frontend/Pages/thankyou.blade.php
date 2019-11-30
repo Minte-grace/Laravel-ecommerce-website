@@ -1,4 +1,3 @@
-
 @extends('Frontend.Layouts.app')
 @section('content')
 

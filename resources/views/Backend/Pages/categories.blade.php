@@ -32,22 +32,16 @@
                 </thead>
                 <tbody>
                 @foreach($categories as $category)
-                    <tr>
-                        <td>{{$category->id}}</td>
-                        <td>{{$category->name}}</td>
-                        <td>
-                            <a href="{{route('category.delete',$category->id)}}"><button type="button" class="btn btn-danger" style="background-color:indianred; color:white; width:60px;">Delete</button></a>
-                        </td>
-                    </tr>
-
+                <tr>
+                    <td>{{$category->id}}</td>
+                    <td>{{$category->name}}</td>
+                    <td>
+                        <a href="{{route('category.delete',$category->id)}}"><button type="button" class="btn btn-danger" style="background-color:indianred; color:white; width:60px;">Delete</button></a>
+                    </td>
+                </tr>
                 @endforeach
-
                 </tbody>
             </table>
             {{ $categories->links() }}
         </div>
-    </div>
-
-    </div>
-
 @endsection

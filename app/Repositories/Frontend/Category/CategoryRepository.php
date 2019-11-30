@@ -2,15 +2,13 @@
 
 
 namespace App\Repositories\Frontend\Category;
-
-
 use App\Category;
-use App\Product;
 use App\Repositories\BaseRepository;
 
 class CategoryRepository extends BaseRepository
 {
-    public function show(){
+    public function show()
+    {
         $categories = Category::all();
         return $categories;
     }

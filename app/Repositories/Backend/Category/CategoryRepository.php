@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Repositories\Backend\Category;
-
 
 use App\Category;
 use App\Repositories\BaseRepository;
@@ -24,7 +22,6 @@ class CategoryRepository extends BaseRepository
         $categories = Category::where('id', $id)->delete();
         return $categories;
     }
-
     public function create(array $data): Category
     {
         return DB::transaction(function () use ($data) {
@@ -35,6 +32,6 @@ class CategoryRepository extends BaseRepository
             if ($category) {
                 return $category;
             }
-        });
+            });
     }
 }

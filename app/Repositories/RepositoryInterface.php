@@ -4,11 +4,7 @@ namespace App\Repositories;
 
 use Illuminate\Http\Request;
 
-/**
- * Interface RepositoryContract.
- *
- * Modified from: https://github.com/kylenoland/laravel-base-repository
- */
+
 interface RepositoryInterface
 {
     public function take();

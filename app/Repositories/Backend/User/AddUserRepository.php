@@ -1,8 +1,7 @@
 <?php
 
-
 namespace App\Repositories\Backend\User;
-
+use App\Order;
 use Illuminate\Support\Facades\DB;
 use App\Repositories\BaseRepository;
 use App\User;
@@ -10,7 +9,6 @@ use Illuminate\Support\Facades\Hash;
 
 class AddUserRepository extends BaseRepository
 {
-
     public function __construct(User $model)
     {
         $this->model = $model;
@@ -25,7 +23,7 @@ class AddUserRepository extends BaseRepository
               'password' => Hash::make($data['password']),
           ]);
                return $user;
-      });
+       });
   }
   public function update($id, array $data)
   {
@@ -37,16 +35,17 @@ class AddUserRepository extends BaseRepository
           $users->save();
 
           return $users;
-  });
+      });
   }
   public function showEditor($id)
   {
-          $users= User::find($id);
-          return$users;
+      $orders= Order::all();
+      $users= User::find($id);
+      return [$users,$orders];
   }
   public function delete($id)
   {
-          $users = User::where('id', $id)->delete();
-          return $users;
+      $users = User::where('id', $id)->delete();
+      return $users;
   }
 }

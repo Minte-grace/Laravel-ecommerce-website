@@ -10,7 +10,7 @@
                             <i class=""></i>  {{$category->name}}
                             </a>
                         </li>
-                    @endforeach    
+                    @endforeach
                 </ul>
          </div>
 </div>
@@ -33,10 +33,9 @@
                     </div>
             </div>
  <!--pagination -->
-         
            <div class="spacer"></div>
            <div style="color: teal"> {{$products->appends(request()->input())->links() }}</div>
-      
+
  </div>
  </div>
  @include('Frontend.Partials.footer')

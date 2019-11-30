@@ -1,186 +1,50 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Category;
-use App\Order;
-use App\User;
-use App\Product;
-use Illuminate\Http\Request;
+use App\Repositories\Backend\Admin\AdminPageRepository;
 
 class AdminController extends Controller
 {
 
-  public function __construct()
-  {
-      $this->middleware('auth:admin');
-  }
+  protected $adminpageRepository;
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function __construct(AdminPageRepository $adminPageRepository){
+        $this->middleware('auth:admin');
+        $this->adminpageRepository = $adminPageRepository;
+    }
+
     public function index()
     {
-        $orders= Order::orderBy('created_at','desc')->paginate(5);
-        $products = Product::orderBy('created_at','desc')->paginate(5);
-        $categories=Category::orderBy('created_at','desc')->paginate(5);
-        $users = User::orderBy('created_at','desc')->paginate(5);
-        return view('Backend.Pages.admin')->with([
-            'users' => $users,
-            'orders' => $orders,
-            'products'=>$products,
-            'categories'=>$categories,
-            ]);
+        return view('Backend.Pages.admin');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {   $categories= Category::all(); 
-        $products = Product::find($id);
-        return view('Backend.Pages.product-update')->with([
-            'products' => $products,
-            'categories' => $categories,
-
-             ]);
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
-    public function adduser(){
-
-        return view('Backend.Pages.admin-add-user');
-    }
     public function detail(){
-        $orders= Order::all();
-        $users = User::all();
+        $orders= $this->adminpageRepository->detail();
+        $users = $this->adminpageRepository->detail();
         return view('Backend.Pages.order-details')->with([
-            'users' => $users,
-            'orders' => $orders,
+        'users' => $users,
+        'orders' => $orders,
         ]);
     }
-    public function addproduct(){
-        $products = Product::all();
-        $categories= Category::all();
 
-        return view('Backend.Pages.add-product')->with([
-            'products' => $products,
-            'categories' => $categories,
+    public function categoryTable(){
+        $categories=$this->adminpageRepository->category();
+        return view('Backend.Pages.categories')->with('categories',$categories);
+     }
 
-        ]);
-
-
+    public function ordersTable(){
+         $orders= $this->adminpageRepository->orders();
+         return view('Backend.Pages.orders')->with( 'orders', $orders);
     }
-    public function addcategory(){
-        return view('Backend.Pages.add-category');
+
+    public function productsTable(){
+         $products = $this->adminpageRepository->products();
+         return view('Backend.Pages.products-table')->with('products',$products);
     }
- public function categoryTable(){
 
-     $orders= Order::orderBy('created_at','desc')->paginate(5);
-     $products = Product::orderBy('created_at','desc')->paginate(5);
-     $categories=Category::orderBy('created_at','desc')->paginate(5);
-     $users = User::orderBy('created_at','desc')->paginate(5);
-     return view('Backend.Pages.categories')->with([
-         'users' => $users,
-         'orders' => $orders,
-         'products'=>$products,
-         'categories'=>$categories,
-     ]);
-
- }
- public function ordersTable(){
-
-     $orders= Order::orderBy('created_at','desc')->paginate(5);
-     $products = Product::orderBy('created_at','desc')->paginate(5);
-     $categories=Category::orderBy('created_at','desc')->paginate(5);
-     $users = User::orderBy('created_at','desc')->paginate(5);
-     return view('Backend.Pages.orders')->with([
-         'users' => $users,
-         'orders' => $orders,
-         'products'=>$products,
-         'categories'=>$categories,
-     ]);
- }
- public function productsTable(){
-     $orders= Order::orderBy('created_at','desc')->paginate(5);
-     $products = Product::orderBy('created_at','desc')->paginate(5);
-     $categories=Category::orderBy('created_at','desc')->paginate(5);
-     $users = User::orderBy('created_at','desc')->paginate(5);
-     return view('Backend.Pages.products-table')->with([
-         'users' => $users,
-         'orders' => $orders,
-         'products'=>$products,
-         'categories'=>$categories,
-     ]);
+    public function usersTable(){
+         $users = $this->adminpageRepository->users();
+         return view('Backend.Pages.users')->with('users',$users);
     }
- public function usersTable(){
-     $orders= Order::orderBy('created_at','desc')->paginate(5);
-     $products = Product::orderBy('created_at','desc')->paginate(5);
-     $categories=Category::orderBy('created_at','desc')->paginate(5);
-     $users = User::orderBy('created_at','desc')->paginate(5);
-     return view('Backend.Pages.users')->with([
-         'users' => $users,
-         'orders' => $orders,
-         'products'=>$products,
-         'categories'=>$categories,
-     ]);
- }
 
 }

@@ -33,19 +33,17 @@
                 <tbody>
 
                 @foreach($users as $user)
-                    <tr>
-                        <td>{{$user->id}}</td>
-                        <td>{{$user->name}}</td>
-                        <td>{{$user->email}}</td>
-                        <td>
-                                <a href="{{route('user.edit',$user->id)}}"><button type="button" class="btn btn-outline-info" style="background-color: #227dc7; color: white; width:100px;">Edit</button></a>
-                                <a href="{{route('user.delete',$user->id)}}"><button type="button" class="btn btn-danger" style="background-color:indianred; color:white; width:100px;">Delete</button></a></td>
-                    </tr>
+                <tr>
+                    <td>{{$user->id}}</td>
+                    <td>{{$user->name}}</td>
+                    <td>{{$user->email}}</td>
+                    <td>
+                    <a href="{{route('user.edit',$user->id)}}"><button type="button" class="btn btn-outline-info" style="background-color: #227dc7; color: white; width:100px;">Edit</button></a>
+                    <a href="{{route('user.delete',$user->id)}}"><button type="button" class="btn btn-danger" style="background-color:indianred; color:white; width:100px;">Delete</button></a></td>
+                </tr>
                 @endforeach
                 </tbody>
             </table>
-            {{ $orders->links() }}
+            {{ $users->links() }}
         </div>
-    </div>
-
 @endsection

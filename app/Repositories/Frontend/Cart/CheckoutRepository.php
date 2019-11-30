@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Repositories\Frontend\Cart;
 use App\Http\Controllers\Frontend\Activities\CheckoutController;
 use App\Product;
@@ -8,9 +7,7 @@ use Illuminate\Support\Facades\DB;
 use App\Order;
 use App\OrderProduct;
 use App\Repositories\BaseRepository;
-use http\Env\Request;
 use Cart;
-use phpDocumentor\Reflection\Types\This;
 
 
 class CheckoutRepository extends BaseRepository
@@ -22,16 +19,14 @@ class CheckoutRepository extends BaseRepository
 
     public function updateCart(): Product
     {
-        foreach (Cart::content() as $item) {
-            $product = Product::find($item->model->id);
+       foreach (Cart::content() as $item) {
+             $product = Product::find($item->model->id);
              return $product;
         }
     }
-
-
     public function create(array $data) : Order
     {
-
+        $cartins = Cart::instance('default');
         return DB::transaction(function () use ($data) {
             $order = $this->model::create([
                 'user_id' => auth()->user() ? auth()->user()->id : null,
@@ -44,18 +39,16 @@ class CheckoutRepository extends BaseRepository
                 'billing_tax' => Cart::totalFloat(),
                 'billing_total' => Cart::taxFloat(),
             ]);
-            foreach (Cart::content() as $item) {
+        foreach (Cart::content() as $item) {
                OrderProduct::create([
-                    'order_id' => $order->id,
-                    'product_id' => $item->model->id,
-                    'quantity' => $item->qty,
+                'order_id' => $order->id,
+                'product_id' => $item->model->id,
+                'quantity' => $item->qty,
                 ]);
-                    return $order;
+               return $order;
             }
-            $cartins = Cart::instance('default');
-
-        });
-        }};
+    });
+ }};
 
 
 

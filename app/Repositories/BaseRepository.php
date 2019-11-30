@@ -1,10 +1,8 @@
 <?php
 
 namespace App\Repositories;
-use App\Category;
 use App\Order;
 use App\Product;
-use Gloudemans\Shoppingcart\Cart;
 use Illuminate\Http\Request;
 
 abstract class BaseRepository implements RepositoryInterface
@@ -23,7 +21,7 @@ abstract class BaseRepository implements RepositoryInterface
     }
     public function all()
     {
-
+         return Product::all();
     }
 
     public function create(array $data)

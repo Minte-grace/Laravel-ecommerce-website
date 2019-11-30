@@ -1,11 +1,8 @@
 <?php
 
-
 namespace App\Repositories\Backend\Product;
-
-
-use App\Category;
 use App\Product;
+use App\Category;
 use App\Repositories\BaseRepository;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -17,12 +14,10 @@ class ProductRepository extends BaseRepository
         $this->model = $model;
     }
 
-    public function all()
-    {
+    public function list(){
         $categories = Category::all();
         return $categories;
     }
-
     public function create(array $data): Product
     {
         return DB::transaction(function () use ($data) {
@@ -47,24 +42,23 @@ class ProductRepository extends BaseRepository
             }
         });
     }
-
     public function update($id, array $data): Product
     {
-            return DB::transaction(function () use ($data,$id) {
-                $products = $this->model::find($id);
-                    $fileName = null;
-                    if (request()->hasFile('image')) {
-                    $file = request()->file('image');
-                    $fileName = md5($file->getClientOriginalName() . time()) . "." . $file->getClientOriginalExtension();
-                    $file->move('./storage/Products', $fileName);
-                    Storage::delete('/storage/Products' . $products->image);
-                    }
-                $products->name = $data['name'];
-                $products->slug = $data['slug'];
-                $products->details = $data['details'];
-                $products->price = $data['price'];
-                $products->description = $data['description'];
-                $products->quantity = $data['quantity'];
+        return DB::transaction(function () use ($data,$id) {
+            $products = $this->model::find($id);
+                $fileName = null;
+                if (request()->hasFile('image')) {
+                $file = request()->file('image');
+                $fileName = md5($file->getClientOriginalName() . time()) . "." . $file->getClientOriginalExtension();
+                $file->move('./storage/Products', $fileName);
+                Storage::delete('/storage/Products' . $products->image);
+                }
+            $products->name = $data['name'];
+            $products->slug = $data['slug'];
+            $products->details = $data['details'];
+            $products->price = $data['price'];
+            $products->description = $data['description'];
+            $products->quantity = $data['quantity'];
 
                 if (request()->hasFile('image')) {
                     $products->image = $fileName;
@@ -85,6 +79,11 @@ class ProductRepository extends BaseRepository
     {
         $products = Product::find($id);
         return $products;
+    }
+    public function edit($id){
+        $categories= Category::all();
+        $products = Product::find($id);
+        return [$categories, $products];
     }
 
 }

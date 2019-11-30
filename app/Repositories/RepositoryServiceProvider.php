@@ -12,6 +12,6 @@ public function register()
 {
 $this->app->bind(
          'App\Repositories\RepositoryInterface',
-        'App\Repositories\Frontend');
+        'App\Repositories');
 }
 }

@@ -1,14 +1,14 @@
 <?php
 
 Route::prefix('admin')->group(function() {
-Route::get('/admin-add-user', 'AdminController@adduser')->name('add-user');
+Route::get('/admin-add-user', 'AdminAddUserController@index')->name('add-user');
 Route::post('/admin-add-user', 'AdminAddUserController@register')->name('admin-add-user');
 
-Route::get('/add-product','AdminController@addproduct')->name('add.product');
+Route::get('/add-product','AddProductController@index')->name('add.product');
 Route::post('/add-product','AddProductController@store')->name('store.product');
 
 //route for adding categories
-Route::get('/add-category','AdminController@addcategory')->name('add.category');
+Route::get('/add-category','AddCategoryController@index')->name('add.category');
 Route::post('/add-category','AddCategoryController@store')->name('store.category');
 
 
@@ -22,7 +22,7 @@ Route::get('/products-details/{id}','AddProductController@show')->name('product.
 Route::get('/admin/products-details/{id}','AddProductController@destroy')->name('product.delete');
 
 //route for product updates
-Route::get('/product-update/{id}', 'AdminController@edit')->name('product.edit');
+Route::get('/product-update/{id}', 'AddProductController@edit')->name('product.edit');
 Route::put('/admin/{id}', 'AddProductController@update')->name('product.update');
 
 //route for user profile updates and deletes

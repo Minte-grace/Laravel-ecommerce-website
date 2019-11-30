@@ -11,32 +11,10 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 
 class AdminAddUserController extends Controller
 {
-    /*
-       |--------------------------------------------------------------------------
-       | Register Controller
-       |--------------------------------------------------------------------------
-       |
-       | This controller handles the registration of new users as well as their
-       | validation and creation. By default this controller uses a trait to
-       | provide this functionality without requiring any additional code.
-       |
-       */
 
     use RegistersUsers;
 
-    /**
-     * Where to redirect users after registration.
-     *
-     * @var string
-     */
     protected $redirectTo = '/';
-
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     *
-**/
 
     protected $adduserRepository;
 
@@ -46,47 +24,33 @@ class AdminAddUserController extends Controller
         $this->adduserRepository= $adduserRepository;
     }
 
-    /**
-     * Get a validator for an incoming registration request.
-     *
-     * @param  array  $data
-     * @return \Illuminate\Contracts\Validation\Validator
-     */
+    public function index(){
 
-
-    /**
-     * Create a new user instance after a valid registration.
-     *
-     * @param  array  $data
-     * @return \App\User
-     */
-
+        return view('Backend.Pages.admin-add-user');
+    }
     public function edit($id)
     {
         $users= $this->adduserRepository->showEditor($id);
         return view('Backend.Pages.update-user')->with('users', $users);
     }
 
-
      public function update(UserUpdateRequest $request, $id){
          $this->adduserRepository->update($id, $request->only(
              ['name', 'email', 'password']));
          return  back()->with('success_message', "User profile is updated  successfully!");
-
-     }
+    }
 
     public function register(UserRegisterRequest $request)
     {
-        $this->adduserRepository-> create($request->only(
+         $this->adduserRepository-> create($request->only(
             ['name', 'email', 'password']));
-        return  back()->with('success_message', "New User is added  successfully!");
-
+         return  back()->with('success_message', "New User is added  successfully!");
     }
+
     public function destroy($id)
     {
-        $this->adduserRepository->delete($id);
-        return  back()->with('success_message', "User is deleted  successfully!");
-
-    }
+         $this->adduserRepository->delete($id);
+         return  back()->with('success_message', "User is deleted  successfully!");
+     }
 
 }

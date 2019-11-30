@@ -7,7 +7,7 @@ use App\Mail\OrderPlaced;
 use Illuminate\Http\Request;
 use App\Http\Requests\Frontend\OrdersRequest;
 use App\Repositories\Frontend\Cart\CheckoutRepository;
-use mysql_xdevapi\Exception;
+
 
 class CheckoutController extends Controller
 {
@@ -29,11 +29,6 @@ class CheckoutController extends Controller
             return view('Frontend.Pages.checkout');
         }
 
-    public function create()
-    {
-        //
-    }
-
     public function store(OrdersRequest $request)
     {
 
@@ -50,53 +45,14 @@ class CheckoutController extends Controller
         return view('Frontend.Pages.thankyou')->with('success_message', 'Thank you! Your payment has been successfully accepted!');
 
     }
-
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
     public function thankyou(){
         return view('Frontend.Pages.thankyou');
     }
 
     protected function decreaseQuantities(){
-            foreach (Cart::content() as $item){
-                $product= $this->checkoutRepository->updateCart();
-                $product->update(['quantity' => $product->quantity - $item->qty]);
-            }
+        foreach (Cart::content() as $item){
+            $product= $this->checkoutRepository->updateCart();
+            $product->update(['quantity' => $product->quantity - $item->qty]);
         }
     }
+}
