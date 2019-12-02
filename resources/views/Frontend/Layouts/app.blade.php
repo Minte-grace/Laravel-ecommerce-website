@@ -9,10 +9,9 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body>
-   @include('Frontend.Partials.navbar')
+    @include('Frontend.Partials.navbar')
     @yield('cart-js')
     @yield('content')
     @yield('script')
- 
 </body>
 </html>

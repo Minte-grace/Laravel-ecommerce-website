@@ -16,19 +16,19 @@ class AddUserRepository extends BaseRepository
 
   public function create(array $data)
   {
-      return DB::transaction(function () use ($data) {
-              $user=$this->model::create([
-              'name' => $data['name'],
-              'email' => $data['email'],
-              'password' => Hash::make($data['password']),
+        return DB::transaction(function () use ($data) {
+        $user=$this->model::create([
+        'name' => $data['name'],
+        'email' => $data['email'],
+        'password' => Hash::make($data['password']),
           ]);
                return $user;
        });
   }
-  public function update($id, array $data)
+  public function update($id, array $data): User
   {
       return DB::transaction(function () use ($data, $id) {
-          $users =$this->model::find($id);
+          $users=$this->model->findOrFail($id);
           $users->name = $data['name'];
           $users->email = $data['email'];
           $users->password=Hash::make($data['password']);
@@ -37,11 +37,10 @@ class AddUserRepository extends BaseRepository
           return $users;
       });
   }
-  public function showEditor($id)
+  public function showEditor($id): User
   {
-      $orders= Order::all();
-      $users= User::find($id);
-      return [$users,$orders];
+      $users = $this->model->findOrFail($id);
+      return $users;
   }
   public function delete($id)
   {

@@ -15,7 +15,6 @@
             <input id="city" name="city" data-tid="elements_examples.form.phone_label" class="field half-width" type="text" placeholder="City" required="" autocomplete="city">
         </div>
         <button type="submit" data-tid="elements_examples.form.pay_button">Order Item</button>
-
     </form>
     </div>
-    @endsection
+ @endsection

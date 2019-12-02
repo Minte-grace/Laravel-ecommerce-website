@@ -1,6 +1,6 @@
 @extends('Backend.Layouts.admin-app')
 @section('content')
-@if (session()->has('success_message'))
+        @if (session()->has('success_message'))
             <div class="alert alert-success">
                 {{ session()->get('success_message') }}
             </div>
@@ -15,14 +15,13 @@
                 </ul>
             </div>
         @endif
-    <div class="container" style="margin-top: 10px;">
-        <div class="jumbotron" style="height: 70px;">
+        <div class="container">
+        <div class="jumbotron">
             <h2><b>Products</b></h2>
-
         </div>
             <a href="{{route('add.product')}}" class="btn btn-primary"> Add New Product</a>
-
-            <table class="table" style="margin-top: 20px;">
+            <p>&nbsp</p>
+            <table class="table">
                 <thead class="thead-light">
                 <tr>
                     <th>Product ID</th>
@@ -39,18 +38,17 @@
                     <td>{{$product->id}}</td>
                     <td>{{$product->name}}</td>
                     <td>{{$product->slug}}</td>
-                    <td style="width: 200px;">{{$product->details}}</td>
+                    <td>{{$product->details}}</td>
                     <td>{{$product->price}}</td>
                     <td>
-                        <a href="{{route('product.details',$product->id)}}"><button type="button" class="btn btn-outline-success" style="background-color: #34ce57; color: white; width:60px;">View</button></a>
-                        <a href="{{route('product.edit', $product->id)}}"><button type="button" class="btn btn-outline-info" style="background-color: #227dc7; color: white; width:60px;">Edit</button></a>
-                        <a href="{{route('product.delete',$product->id)}}"><button type="button" class="btn btn-danger" style="background-color:indianred; color:white; width:60px;">Delete</button></a>
+                        <a href="{{route('product.details',$product->id)}}"><button type="button" class="btn btn-sm btn-success" >View</button></a>
+                        <a href="{{route('product.edit', $product->id)}}"><button type="button" class="btn btn-sm btn-primary">Edit</button></a>
+                        <a href="{{route('product.delete',$product->id)}}"><button type="button" class="btn btn-sm btn-danger" >Delete</button></a>
                     </td>
                 </tr>
                 @endforeach
                 </tbody>
-
-            </table>
+                </table>
             {{ $products->links() }}
         </div>
     </div>

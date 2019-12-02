@@ -10491,7 +10491,14 @@ a {
   color: black;
   border: none;
   font-size: 22px;
-  border-radius: 50px;
+  float: none;
+}
+
+.about {
+  color: black;
+  border-radius: 15px;
+  font-size: 22px;
+  float: none;
 }
 
 .product-img {
@@ -10515,6 +10522,11 @@ a {
 .nav-side-menu {
   left: 0;
   width: 250px;
+}
+
+.side {
+  height: 1290px;
+  position: absolute;
 }
 
 .example.example3 {
@@ -10691,6 +10703,10 @@ a {
 
 .StripeElement--webkit-autofill {
   background-color: #fefde5 !important;
+}
+
+.rm {
+  margin-left: 50px;
 }
 
 .nav-side-menu {

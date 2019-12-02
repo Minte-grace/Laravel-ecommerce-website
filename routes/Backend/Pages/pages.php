@@ -23,7 +23,7 @@ Route::get('/admin/products-details/{id}','AddProductController@destroy')->name(
 
 //route for product updates
 Route::get('/product-update/{id}', 'AddProductController@edit')->name('product.edit');
-Route::put('/admin/{id}', 'AddProductController@update')->name('product.update');
+Route::put('/Backend/Pages/product_update/{id}', 'AddProductController@update')->name('product.update');
 
 //route for user profile updates and deletes
 Route::get('/update-user/{id}', 'AdminAddUserController@edit')->name('user.edit');

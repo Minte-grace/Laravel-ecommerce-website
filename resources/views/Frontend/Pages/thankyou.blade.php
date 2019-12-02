@@ -1,7 +1,7 @@
 @extends('Frontend.Layouts.app')
 @section('content')
 
-    <div class="container" style="width: 800px;">
+    <div class="container">
         <div class="jumbotron jumbotron-fluid">
             <div class="container">
                 <h1><b>Thank you</b></h1>

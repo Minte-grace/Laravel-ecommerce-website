@@ -1,11 +1,10 @@
 @extends('Backend.Layouts.admin-app')
 @section('content')
-@if (session()->has('success_message'))
+        @if (session()->has('success_message'))
             <div class="alert alert-success">
                 {{ session()->get('success_message') }}
             </div>
         @endif
-
         @if(count($errors) > 0)
             <div class="alert alert-danger">
                 <ul>
@@ -15,12 +14,11 @@
                 </ul>
             </div>
         @endif
-    <div class="container" style="margin-top: 10px;">
-      <div class="jumbotron" style="height: 70px;">
-            <h2><b>Orders</b></h2>
-
-      </div>
-            <table class="table" style="margin-top: 10px;">
+    <div class="container">
+      <div class="jumbotron">
+         <h2><b>Orders</b></h2>
+         </div>
+            <table class="table">
                 <thead class="thead-light">
                 <tr>
                     <th>Order ID</th>
@@ -33,11 +31,9 @@
                     <th>Tax</th>
                     <th>Total</th>
                     <th>Action</th>
-
                 </tr>
                 </thead>
                 <tbody>
-
                 @foreach($orders as $order)
                 <tr>
                     <td>{{$order->id}}</td>
@@ -49,8 +45,8 @@
                     <td>{{$order->billing_subtotal}}</td>
                     <td>{{$order->billing_tax}}</td>
                     <td>{{$order->billing_total}}</td>
-                    <td style="width: 200px;"><a href="{{route('order.details',$order->id)}}"><button type="button"  class="btn btn-outline-info" style="background-color: #227dc7; color: white; width:50px;">View</button></a>
-                        <a href="{{route('order.delete',$order->id)}}"><button type="button" class="btn btn-danger" style="background-color:indianred; color:white; width:60px;">Delete</button></td>
+                    <td><a href="{{route('order.details',$order->id)}}"><button type="button"  class="btn btn-sm btn-primary">View</button></a>
+                        <a href="{{route('order.delete',$order->id)}}"><button type="button" class="btn btn-sm btn-danger">Delete</button></td>
                 </tr>
                 @endforeach
                 </tbody>

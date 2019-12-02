@@ -45,7 +45,7 @@ class ProductRepository extends BaseRepository
     public function update($id, array $data): Product
     {
         return DB::transaction(function () use ($data,$id) {
-            $products = $this->model::find($id);
+            $products = $this->model->findOrFail($id);
                 $fileName = null;
                 if (request()->hasFile('image')) {
                 $file = request()->file('image');
@@ -80,10 +80,11 @@ class ProductRepository extends BaseRepository
         $products = Product::find($id);
         return $products;
     }
-    public function edit($id){
-        $categories= Category::all();
-        $products = Product::find($id);
-        return [$categories, $products];
+    public function edit($id):Product
+    {
+        $products = Product::findOrFail($id);
+        return $products;
     }
+
 
 }

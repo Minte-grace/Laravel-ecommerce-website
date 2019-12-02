@@ -1,6 +1,6 @@
 @extends('Backend.Layouts.admin-app')
 @section('content')
-@if (session()->has('success_message'))
+        @if (session()->has('success_message'))
             <div class="alert alert-success">
                 {{ session()->get('success_message') }}
             </div>
@@ -15,13 +15,13 @@
                 </ul>
             </div>
         @endif
-    <div class="container" style="margin-top: 10px;">
-        <div class="jumbotron" style="height: 70px;">
+    <div class="container" >
+        <div class="jumbotron">
             <h2><b>Users</b></h2>
-
         </div>
             <a href="{{route('add-user')}}" class="btn btn-primary"> Add New User</a>
-            <table class="table" style="margin-top: 50px;">
+            <p>&nbsp</p>
+            <table class="table" >
                 <thead class="thead-light">
                 <tr>
                     <th>User ID</th>
@@ -31,15 +31,14 @@
                 </tr>
                 </thead>
                 <tbody>
-
                 @foreach($users as $user)
                 <tr>
                     <td>{{$user->id}}</td>
                     <td>{{$user->name}}</td>
                     <td>{{$user->email}}</td>
                     <td>
-                    <a href="{{route('user.edit',$user->id)}}"><button type="button" class="btn btn-outline-info" style="background-color: #227dc7; color: white; width:100px;">Edit</button></a>
-                    <a href="{{route('user.delete',$user->id)}}"><button type="button" class="btn btn-danger" style="background-color:indianred; color:white; width:100px;">Delete</button></a></td>
+                    <a href="{{route('user.edit',$user->id)}}"><button type="button" class="btn btn-sm btn-primary">Edit</button></a>
+                    <a href="{{route('user.delete',$user->id)}}"><button type="button" class="btn btn-sm btn-danger" >Delete</button></a></td>
                 </tr>
                 @endforeach
                 </tbody>

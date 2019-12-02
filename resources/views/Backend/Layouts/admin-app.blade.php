@@ -11,7 +11,5 @@
 <body>
    @include('Backend.Partials.navbar')
    @yield('content')
-   
- 
 </body>
 </html>

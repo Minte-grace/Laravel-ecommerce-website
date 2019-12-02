@@ -11,7 +11,5 @@
 <body>
    @include('Backend.Partials.login-nav')
    @yield('content')
-   
- 
 </body>
 </html>
